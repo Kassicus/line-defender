@@ -14,23 +14,44 @@ class Game():
         self.clock = pygame.time.Clock()
         lib.events = pygame.event.get()
 
+        self.friend_group = pygame.sprite.Group()
+        self.enemy_group = pygame.sprite.Group()
+
     def start(self):
         while self.running:
-            self.events()
+            self.events_master()
             self.draw()
             self.update()
 
-    def events(self):
+    def events_master(self):
         lib.events = pygame.event.get()
 
         for event in lib.events:
             if event.type == pygame.QUIT:
                 self.running = False
 
+            if event.type == pygame.KEYDOWN:
+                self.events_keyboard(event.key)
+
+    def events_keyboard(self, key: pygame.key):
+        if key == pygame.K_q:
+            self.running = False
+
+        if key == pygame.K_f:
+            x, y = pygame.mouse.get_pos()
+            f = friends.RifleFriend(x, y)
+            self.friend_group.add(f)
+
     def draw(self):
         self.screen.fill(lib.color.black)
 
+        self.friend_group.draw(self.screen)
+        self.enemy_group.draw(self.screen)
+
     def update(self):
+        self.friend_group.update(self.enemy_group)
+        self.enemy_group.update(self.friend_group)
+
         pygame.display.update()
         lib.delta_time = self.clock.tick(lib.frame_limit) / 1000
 

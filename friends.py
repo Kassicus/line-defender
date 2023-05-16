@@ -4,23 +4,33 @@ import random
 import lib
 
 class BaseFriend(pygame.sprite.Sprite):
-    def __init__(self, x: int, y: int):
+    def __init__(
+            self,
+            x: int,
+            y: int,
+            health: int,
+            accuracy: int,
+            max_shot_cooldown: int,
+            mag_capacity: int,
+            max_reload_timer: int
+            ):
+
         super().__init__()
 
         self.pos = pygame.math.Vector2(x, y)
         self.size = pygame.math.Vector2(20, 30)
         self.velocity = pygame.math.Vector2()
     
-        self.health = 10
-        self.accuracy = 0
+        self.health = health
+        self.accuracy = accuracy
         self.target = None
 
-        self.max_shot_cooldown = 0
+        self.max_shot_cooldown = max_shot_cooldown
         self.shot_cooldown = random.randint(0, self.max_shot_cooldown)
-        self.mag_capacity = 0
+        self.mag_capacity = mag_capacity
         self.rounds_remaining = self.mag_capacity
         self.reloading = False
-        self.max_reload_timer = 0
+        self.max_reload_timer = max_reload_timer
         self.reload_timer = self.max_reload_timer
 
         self.image = pygame.Surface([self.size.x, self.size.y])
@@ -61,3 +71,7 @@ class BaseFriend(pygame.sprite.Sprite):
                 self.shot_cooldown = self.max_shot_cooldown
         else:
             self.target = None
+
+class RifleFriend(BaseFriend):
+    def __init__(self, x: int, y: int):
+        super().__init__(x, y, 10, 20, 5, 5, 120)
