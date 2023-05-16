@@ -11,6 +11,9 @@ class Colors():
         self.red = pygame.Color(255, 0, 0, 255)
         self.green = pygame.Color(0, 255, 0, 255)
         self.blue = pygame.Color(0, 0, 255, 255)
+        self.yellow = pygame.Color(255, 255, 0, 255)
+        self.magenta = pygame.Color(255, 0, 255, 255)
+        self.cyan = pygame.Color(0, 255, 255, 255)
 
     def get_random(self) -> pygame.Color:
         color = pygame.Color(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))

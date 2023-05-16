@@ -1,6 +1,7 @@
 import pygame
 
 import lib
+import friends
 
 pygame.init()
 
