@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 
 import lib
 import bullets
@@ -22,8 +23,10 @@ class BaseEnemy(pygame.sprite.Sprite):
         self.pos = pygame.math.Vector2(x, y)
         self.size = pygame.math.Vector2(20, 30)
         self.velocity = pygame.math.Vector2()
+        self.waypoint = self.get_waypoint()
 
         self.health = health
+        self.speed = 100
         self.accuracy = accuracy
         self.target = None
 
@@ -49,6 +52,8 @@ class BaseEnemy(pygame.sprite.Sprite):
             self.target = self.get_target(enemies)
         else:
             self.engage_target()
+
+        self.move_to_waypoint()
 
         if self.health <= 0:
             self.kill()
@@ -89,6 +94,31 @@ class BaseEnemy(pygame.sprite.Sprite):
 
         if self.rounds_remaining <= 0:
             self.reloading = True
+
+    def get_vectors(self) -> pygame.math.Vector2:
+        distance = [self.waypoint.x - self.pos.x, self.waypoint.y - self.pos.y]
+        normal = math.sqrt(distance[0] ** 2 + distance[1] ** 2)
+        direction = [distance[0] / normal, distance[1] / normal]
+        vectors = pygame.math.Vector2(direction[0] * self.speed, direction[1] * self.speed)
+
+        return vectors
+
+    def move_to_waypoint(self):
+        self.velocity = self.get_vectors()
+        self.check_waypoint()
+
+    def check_waypoint(self):
+        if self.pos.distance_to(self.waypoint) < 5:
+            self.velocity.x, self.velocity.y = 0, 0
+            self.waypoint = self.get_waypoint()
+
+    def get_waypoint(self) -> pygame.math.Vector2:
+        x = random.randint(int(self.pos.x - 400), int(self.pos.x - 50))
+        y = random.randint(25, 975)
+
+        waypoint = pygame.math.Vector2(x, y)
+
+        return waypoint
 
 class RifleEnemy(BaseEnemy):
     def __init__(self, x: int, y: int):
