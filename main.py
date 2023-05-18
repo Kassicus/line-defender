@@ -2,6 +2,7 @@ import pygame
 
 import lib
 import friends
+import enemies
 
 pygame.init()
 
@@ -13,9 +14,6 @@ class Game():
         self.running = True
         self.clock = pygame.time.Clock()
         lib.events = pygame.event.get()
-
-        self.friend_group = pygame.sprite.Group()
-        self.enemy_group = pygame.sprite.Group()
 
     def start(self):
         while self.running:
@@ -40,17 +38,28 @@ class Game():
         if key == pygame.K_f:
             x, y = pygame.mouse.get_pos()
             f = friends.RifleFriend(x, y)
-            self.friend_group.add(f)
+            lib.friend_group.add(f)
+
+        if key == pygame.K_b:
+            x, y = pygame.mouse.get_pos()
+            b = enemies.RifleEnemy(x, y)
+            lib.enemy_group.add(b)
 
     def draw(self):
         self.screen.fill(lib.color.black)
 
-        self.friend_group.draw(self.screen)
-        self.enemy_group.draw(self.screen)
+        lib.friend_group.draw(self.screen)
+        lib.enemy_group.draw(self.screen)
+
+        lib.friend_bullets.draw(self.screen)
+        lib.enemy_bullets.draw(self.screen)
 
     def update(self):
-        self.friend_group.update(self.enemy_group)
-        self.enemy_group.update(self.friend_group)
+        lib.friend_group.update(lib.enemy_group)
+        lib.enemy_group.update(lib.friend_group)
+
+        lib.friend_bullets.update()
+        lib.enemy_bullets.update()
 
         pygame.display.update()
         lib.delta_time = self.clock.tick(lib.frame_limit) / 1000

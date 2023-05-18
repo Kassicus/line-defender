@@ -4,7 +4,7 @@ import random
 import lib
 import bullets
 
-class BaseFriend(pygame.sprite.Sprite):
+class BaseEnemy(pygame.sprite.Sprite):
     def __init__(
             self,
             x: int,
@@ -22,7 +22,7 @@ class BaseFriend(pygame.sprite.Sprite):
         self.pos = pygame.math.Vector2(x, y)
         self.size = pygame.math.Vector2(20, 30)
         self.velocity = pygame.math.Vector2()
-    
+
         self.health = health
         self.accuracy = accuracy
         self.target = None
@@ -37,7 +37,7 @@ class BaseFriend(pygame.sprite.Sprite):
         self.reload_timer = self.max_reload_timer
 
         self.image = pygame.Surface([self.size.x, self.size.y])
-        self.image.fill(lib.color.blue)
+        self.image.fill(lib.color.red)
         self.rect = self.image.get_rect()
         self.rect.center = self.pos
 
@@ -72,8 +72,8 @@ class BaseFriend(pygame.sprite.Sprite):
             if self.shot_cooldown < 0:
                 self.shoot()
                 self.shot_cooldown = self.max_shot_cooldown
-        else:
-            self.target = None
+            else:
+                self.target = None
 
     def shoot(self):
         b = self.bullet_type(
@@ -83,13 +83,13 @@ class BaseFriend(pygame.sprite.Sprite):
                 random.randint(int(self.target.pos.y) - self.accuracy, int(self.target.pos.y) + self.accuracy)
                 )
 
-        lib.friend_bullets.add(b)
+        lib.enemy_bullets.add(b)
 
         self.rounds_remaining -= 1
 
         if self.rounds_remaining <= 0:
             self.reloading = True
 
-class RifleFriend(BaseFriend):
+class RifleEnemy(BaseEnemy):
     def __init__(self, x: int, y: int):
-        super().__init__(x, y, 10, 20, 5, 5, 120, bullets.HandgunBullet)
+        super().__init__(x, y, 10, 20, 5, 5, 120, bullets.HandgunBullet) 

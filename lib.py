@@ -25,3 +25,9 @@ delta_time = 0
 frame_limit = 120
 
 events = None
+
+friend_group = pygame.sprite.Group()
+enemy_group = pygame.sprite.Group()
+
+friend_bullets = pygame.sprite.Group()
+enemy_bullets = pygame.sprite.Group()
