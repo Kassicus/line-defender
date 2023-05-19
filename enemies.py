@@ -15,7 +15,8 @@ class BaseEnemy(pygame.sprite.Sprite):
             max_shot_cooldown: int,
             mag_capacity: int,
             max_reload_timer: int,
-            bullet_type: pygame.sprite.Sprite
+            bullet_type: pygame.sprite.Sprite,
+            engage_distance: int
             ):
 
         super().__init__()
@@ -29,6 +30,7 @@ class BaseEnemy(pygame.sprite.Sprite):
         self.speed = 50
         self.accuracy = accuracy
         self.target = None
+        self.engage_distance = engage_distance
 
         self.bullet_type = bullet_type
         self.max_shot_cooldown = max_shot_cooldown
@@ -65,7 +67,7 @@ class BaseEnemy(pygame.sprite.Sprite):
     def get_target(self, enemies: pygame.sprite.Group) -> pygame.sprite.Sprite:
         if len(enemies.sprites()) > 0:
             target = min([e for e in enemies], key = lambda e: self.pos.distance_to(e.pos))
-            if self.pos.distance_to(target.pos) < 600:
+            if self.pos.distance_to(target.pos) < self.engage_distance:
                 return target
             else:
                 return None
@@ -130,6 +132,10 @@ class BaseEnemy(pygame.sprite.Sprite):
 
         return waypoint
 
+class SMGEnemy(BaseEnemy):
+    def __init__(self, x: int, y: int):
+        super().__init__(x, y, 10, 120, 10, 30, 350, bullets.HandgunBullet, 450)
+
 class RifleEnemy(BaseEnemy):
     def __init__(self, x: int, y: int):
-        super().__init__(x, y, 10, 20, 50, 5, 250, bullets.HandgunBullet) 
+        super().__init__(x, y, 10, 20, 50, 5, 250, bullets.ARBullet, 600) 

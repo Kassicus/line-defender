@@ -44,4 +44,8 @@ class BaseBullet(pygame.sprite.Sprite):
 
 class HandgunBullet(BaseBullet):
     def __init__(self, sx: int, sy: int, tx: int, ty: int):
-        super().__init__(sx, sy, tx, ty, 650, 1)
+        super().__init__(sx, sy, tx, ty, 500, 1)
+
+class ARBullet(BaseBullet):
+    def __init__(self, sx: int, sy: int, tx: int, ty: int):
+        super().__init__(sx, sy, tx, ty, 800, 5)

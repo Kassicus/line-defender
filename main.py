@@ -42,7 +42,7 @@ class Game():
 
         if key == pygame.K_b:
             x, y = pygame.mouse.get_pos()
-            b = enemies.RifleEnemy(x, y)
+            b = enemies.SMGEnemy(x, y)
             lib.enemy_group.add(b)
 
     def collide_projectiles(self):
