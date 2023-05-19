@@ -14,6 +14,8 @@ class Colors():
         self.yellow = pygame.Color(255, 255, 0, 255)
         self.magenta = pygame.Color(255, 0, 255, 255)
         self.cyan = pygame.Color(0, 255, 255, 255)
+        self.gray = pygame.Color(80, 80, 80, 255)
+        self.light_gray = pygame.Color(140, 140, 140, 255)
 
     def get_random(self) -> pygame.Color:
         color = pygame.Color(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
@@ -31,3 +33,5 @@ enemy_group = pygame.sprite.Group()
 
 friend_bullets = pygame.sprite.Group()
 enemy_bullets = pygame.sprite.Group()
+
+current_friend_unit = "rifle"

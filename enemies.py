@@ -17,7 +17,7 @@ class BaseEnemy(pygame.sprite.Sprite):
             max_reload_timer: int,
             bullet_type: pygame.sprite.Sprite,
             engage_distance: int
-            ):
+    ):
 
         super().__init__()
 
@@ -98,7 +98,7 @@ class BaseEnemy(pygame.sprite.Sprite):
                 self.pos.y,
                 random.randint(int(self.target.pos.x) - self.accuracy, int(self.target.pos.x) + self.accuracy),
                 random.randint(int(self.target.pos.y) - self.accuracy, int(self.target.pos.y) + self.accuracy)
-                )
+        )
 
         lib.enemy_bullets.add(b)
 

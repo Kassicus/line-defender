@@ -3,6 +3,7 @@ import pygame
 import lib
 import friends
 import enemies
+import ui
 
 pygame.init()
 
@@ -14,6 +15,10 @@ class Game():
         self.running = True
         self.clock = pygame.time.Clock()
         lib.events = pygame.event.get()
+
+        self.mouse_mode = "normal"
+
+        self.unit_interface = ui.UnitInterface()
 
     def start(self):
         while self.running:
@@ -31,19 +36,37 @@ class Game():
             if event.type == pygame.KEYDOWN:
                 self.events_keyboard(event.key)
 
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                self.mouse_events(event.button)
+
+    def mouse_events(self, button):
+        if self.mouse_mode == "spawn":
+            if button == pygame.BUTTON_LEFT:
+                x, y = pygame.mouse.get_pos()
+                
+                match lib.current_friend_unit:
+                    case "rifle":
+                        f = friends.RifleFriend(x, y)
+                        lib.friend_group.add(f)
+                    case "autorifle":
+                        f = friends.AutoRifleFriend(x, y)
+                        lib.friend_group.add(f)
+
+
     def events_keyboard(self, key: pygame.key):
         if key == pygame.K_q:
             self.running = False
-
-        if key == pygame.K_f:
-            x, y = pygame.mouse.get_pos()
-            f = friends.RifleFriend(x, y)
-            lib.friend_group.add(f)
 
         if key == pygame.K_b:
             x, y = pygame.mouse.get_pos()
             b = enemies.SMGEnemy(x, y)
             lib.enemy_group.add(b)
+
+        if key == pygame.K_s:
+            self.mouse_mode = "spawn"
+
+        if key == pygame.K_n:
+            self.mouse_mode = "normal"
 
     def collide_projectiles(self):
         for f in lib.friend_group:
@@ -67,6 +90,8 @@ class Game():
         lib.friend_bullets.draw(self.screen)
         lib.enemy_bullets.draw(self.screen)
 
+        self.unit_interface.draw(self.screen)
+
     def update(self):
         lib.friend_group.update(lib.enemy_group)
         lib.enemy_group.update(lib.friend_group)
@@ -75,6 +100,8 @@ class Game():
         lib.enemy_bullets.update()
 
         self.collide_projectiles()
+
+        self.unit_interface.update()
 
         pygame.display.update()
         lib.delta_time = self.clock.tick(lib.frame_limit) / 1000

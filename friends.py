@@ -15,7 +15,7 @@ class BaseFriend(pygame.sprite.Sprite):
             mag_capacity: int,
             max_reload_timer: int,
             bullet_type: pygame.sprite.Sprite
-            ):
+    ):
 
         super().__init__()
 
@@ -81,7 +81,7 @@ class BaseFriend(pygame.sprite.Sprite):
                 self.pos.y,
                 random.randint(int(self.target.pos.x) - self.accuracy, int(self.target.pos.x) + self.accuracy),
                 random.randint(int(self.target.pos.y) - self.accuracy, int(self.target.pos.y) + self.accuracy)
-                )
+        )
 
         lib.friend_bullets.add(b)
 
@@ -92,4 +92,8 @@ class BaseFriend(pygame.sprite.Sprite):
 
 class RifleFriend(BaseFriend):
     def __init__(self, x: int, y: int):
-        super().__init__(x, y, 10, 20, 50, 5, 250, bullets.HandgunBullet)
+        super().__init__(x, y, 10, 20, 50, 5, 250, bullets.RifleBullet)
+
+class AutoRifleFriend(BaseFriend):
+    def __init__(self, x: int, y: int):
+        super().__init__(x, y, 10, 30, 40, 20, 300, bullets.RifleBullet)
