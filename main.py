@@ -1,4 +1,5 @@
 import pygame
+import random
 
 import lib
 import friends
@@ -70,6 +71,15 @@ class Game():
         if key == pygame.K_n:
             self.mouse_mode = "normal"
             pygame.mouse.set_visible(True)
+
+        if key == pygame.K_w:
+            self.spawn_enemy_wave()
+
+    def spawn_enemy_wave(self):
+        for x in range(100):
+            x = random.choice((enemies.RifleEnemy, enemies.SMGEnemy))
+            e = x(random.randint(1600, 1700), random.randint(25, 975))
+            lib.enemy_group.add(e)
 
     def collide_projectiles(self):
         for f in lib.friend_group:

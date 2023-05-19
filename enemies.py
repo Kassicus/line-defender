@@ -27,7 +27,7 @@ class BaseEnemy(pygame.sprite.Sprite):
         self.waypoint = self.get_waypoint()
 
         self.health = health
-        self.speed = 50
+        self.speed = 100
         self.accuracy = accuracy
         self.target = None
         self.engage_distance = engage_distance
