@@ -19,6 +19,7 @@ class Game():
         self.mouse_mode = "normal"
 
         self.unit_interface = ui.UnitInterface()
+        self.place_unit_cursor = pygame.image.load("assets/down_arrow.png").convert_alpha()
 
     def start(self):
         while self.running:
@@ -64,9 +65,11 @@ class Game():
 
         if key == pygame.K_s:
             self.mouse_mode = "spawn"
+            pygame.mouse.set_visible(False)
 
         if key == pygame.K_n:
             self.mouse_mode = "normal"
+            pygame.mouse.set_visible(True)
 
     def collide_projectiles(self):
         for f in lib.friend_group:
@@ -91,6 +94,10 @@ class Game():
         lib.enemy_bullets.draw(self.screen)
 
         self.unit_interface.draw(self.screen)
+
+        if self.mouse_mode == "spawn":
+            x, y = pygame.mouse.get_pos()
+            self.screen.blit(self.place_unit_cursor, (x - self.place_unit_cursor.get_width() / 2, y - self.place_unit_cursor.get_height()))
 
     def update(self):
         lib.friend_group.update(lib.enemy_group)
