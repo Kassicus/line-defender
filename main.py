@@ -45,6 +45,19 @@ class Game():
             b = enemies.RifleEnemy(x, y)
             lib.enemy_group.add(b)
 
+    def collide_projectiles(self):
+        for f in lib.friend_group:
+            for e in lib.enemy_bullets:
+                if f.rect.colliderect(e.rect):
+                    f.health -= e.damage
+                    e.destroy()
+
+        for e in lib.enemy_group:
+            for f in lib.friend_bullets:
+                if e.rect.colliderect(f.rect):
+                    e.health -= f.damage
+                    f.destroy()
+
     def draw(self):
         self.screen.fill(lib.color.black)
 
@@ -61,6 +74,8 @@ class Game():
         lib.friend_bullets.update()
         lib.enemy_bullets.update()
 
+        self.collide_projectiles()
+
         pygame.display.update()
         lib.delta_time = self.clock.tick(lib.frame_limit) / 1000
 
@@ -68,4 +83,3 @@ if __name__ == '__main__':
     game = Game()
     game.start()
     pygame.quit()
-

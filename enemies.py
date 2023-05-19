@@ -26,7 +26,7 @@ class BaseEnemy(pygame.sprite.Sprite):
         self.waypoint = self.get_waypoint()
 
         self.health = health
-        self.speed = 100
+        self.speed = 50
         self.accuracy = accuracy
         self.target = None
 
@@ -49,11 +49,15 @@ class BaseEnemy(pygame.sprite.Sprite):
         self.rect.center = self.pos
 
         if self.target == None:
-            self.target = self.get_target(enemies)
+            new_target = self.get_target(enemies)
+
+            if new_target == None:
+                self.move_to_waypoint()
+            else:
+                self.target = new_target
+
         else:
             self.engage_target()
-
-        self.move_to_waypoint()
 
         if self.health <= 0:
             self.kill()
@@ -61,7 +65,10 @@ class BaseEnemy(pygame.sprite.Sprite):
     def get_target(self, enemies: pygame.sprite.Group) -> pygame.sprite.Sprite:
         if len(enemies.sprites()) > 0:
             target = min([e for e in enemies], key = lambda e: self.pos.distance_to(e.pos))
-            return target
+            if self.pos.distance_to(target.pos) < 600:
+                return target
+            else:
+                return None
 
     def engage_target(self):
         if self.reloading == False:
@@ -74,11 +81,14 @@ class BaseEnemy(pygame.sprite.Sprite):
                 self.rounds_remaining = self.mag_capacity
 
         if self.target.alive():
+            self.velocity = pygame.math.Vector2(0, 0)
             if self.shot_cooldown < 0:
                 self.shoot()
                 self.shot_cooldown = self.max_shot_cooldown
-            else:
-                self.target = None
+        elif self.target == None:
+            self.move_to_waypoint()
+        else:
+            self.target = None           
 
     def shoot(self):
         b = self.bullet_type(
@@ -122,4 +132,4 @@ class BaseEnemy(pygame.sprite.Sprite):
 
 class RifleEnemy(BaseEnemy):
     def __init__(self, x: int, y: int):
-        super().__init__(x, y, 10, 20, 5, 5, 120, bullets.HandgunBullet) 
+        super().__init__(x, y, 10, 20, 50, 5, 250, bullets.HandgunBullet) 

@@ -92,4 +92,4 @@ class BaseFriend(pygame.sprite.Sprite):
 
 class RifleFriend(BaseFriend):
     def __init__(self, x: int, y: int):
-        super().__init__(x, y, 10, 20, 5, 5, 120, bullets.HandgunBullet)
+        super().__init__(x, y, 10, 20, 50, 5, 250, bullets.HandgunBullet)
