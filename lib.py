@@ -34,5 +34,9 @@ enemy_group = pygame.sprite.Group()
 friend_bullets = pygame.sprite.Group()
 enemy_bullets = pygame.sprite.Group()
 
+mouse_mode = "normal"
+
 current_friend_unit = "rifle"
 spawn_friend_count = 5
+
+cash = 100

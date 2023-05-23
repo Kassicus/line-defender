@@ -16,7 +16,8 @@ class BaseEnemy(pygame.sprite.Sprite):
             mag_capacity: int,
             max_reload_timer: int,
             bullet_type: pygame.sprite.Sprite,
-            engage_distance: int
+            engage_distance: int,
+            kill_value: int
     ):
 
         super().__init__()
@@ -31,6 +32,7 @@ class BaseEnemy(pygame.sprite.Sprite):
         self.accuracy = accuracy
         self.target = None
         self.engage_distance = engage_distance
+        self.kill_value = kill_value
 
         self.bullet_type = bullet_type
         self.max_shot_cooldown = max_shot_cooldown
@@ -62,6 +64,7 @@ class BaseEnemy(pygame.sprite.Sprite):
             self.engage_target()
 
         if self.health <= 0:
+            lib.cash += self.kill_value
             self.kill()
 
     def get_target(self, enemies: pygame.sprite.Group) -> pygame.sprite.Sprite:
@@ -134,8 +137,8 @@ class BaseEnemy(pygame.sprite.Sprite):
 
 class SMGEnemy(BaseEnemy):
     def __init__(self, x: int, y: int):
-        super().__init__(x, y, 10, 120, 10, 30, 350, bullets.HandgunBullet, 450)
+        super().__init__(x, y, 10, 120, 10, 30, 350, bullets.HandgunBullet, 450, 3)
 
 class RifleEnemy(BaseEnemy):
     def __init__(self, x: int, y: int):
-        super().__init__(x, y, 10, 20, 50, 5, 250, bullets.ARBullet, 600) 
+        super().__init__(x, y, 10, 20, 50, 5, 250, bullets.ARBullet, 600, 2) 

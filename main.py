@@ -17,7 +17,8 @@ class Game():
         self.clock = pygame.time.Clock()
         lib.events = pygame.event.get()
 
-        self.mouse_mode = "normal"
+        self.debug_interface = ui.DebugInterface()
+        self.info_interface = ui.InfoInterface()
 
         self.unit_interface = ui.UnitInterface()
         self.place_unit_cursor = pygame.image.load("assets/down_arrow.png").convert_alpha()
@@ -42,7 +43,7 @@ class Game():
                 self.mouse_events(event.button)
 
     def mouse_events(self, button):
-        if self.mouse_mode == "spawn":
+        if lib.mouse_mode == "spawn":
             if button == pygame.BUTTON_LEFT:
                 x, y = pygame.mouse.get_pos()
                 
@@ -56,23 +57,12 @@ class Game():
                             f = friends.AutoRifleFriend(x + random.randint(-50, 50), y + random.randint(-100, 100))
                             lib.friend_group.add(f)
 
+                lib.mouse_mode = "normal"
+                pygame.mouse.set_visible(True)
 
     def events_keyboard(self, key: pygame.key):
         if key == pygame.K_q:
             self.running = False
-
-        if key == pygame.K_b:
-            x, y = pygame.mouse.get_pos()
-            b = enemies.SMGEnemy(x, y)
-            lib.enemy_group.add(b)
-
-        if key == pygame.K_s:
-            self.mouse_mode = "spawn"
-            pygame.mouse.set_visible(False)
-
-        if key == pygame.K_n:
-            self.mouse_mode = "normal"
-            pygame.mouse.set_visible(True)
 
         if key == pygame.K_w:
             self.spawn_enemy_wave()
@@ -106,8 +96,10 @@ class Game():
         lib.enemy_bullets.draw(self.screen)
 
         self.unit_interface.draw(self.screen)
+        self.debug_interface.draw(self.screen)
+        self.info_interface.draw(self.screen)
 
-        if self.mouse_mode == "spawn":
+        if lib.mouse_mode == "spawn":
             x, y = pygame.mouse.get_pos()
             self.screen.blit(self.place_unit_cursor, (x - self.place_unit_cursor.get_width() / 2, y - self.place_unit_cursor.get_height()))
 
@@ -121,6 +113,8 @@ class Game():
         self.collide_projectiles()
 
         self.unit_interface.update()
+        self.debug_interface.update(self.clock)
+        self.info_interface.update()
 
         pygame.display.update()
         lib.delta_time = self.clock.tick(lib.frame_limit) / 1000
