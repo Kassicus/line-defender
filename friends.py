@@ -20,7 +20,7 @@ class BaseFriend(pygame.sprite.Sprite):
 
         super().__init__()
 
-        self.pos = pygame.math.Vector2(x - random.randint(300, 500), y) #TODO: randomize spawning in the y position
+        self.pos = pygame.math.Vector2(x - random.randint(300, 500), y)
         self.spawnpoint = pygame.math.Vector2(x, y)
         self.size = pygame.math.Vector2(20, 30)
         self.velocity = pygame.math.Vector2()
