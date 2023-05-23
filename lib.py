@@ -35,3 +35,4 @@ friend_bullets = pygame.sprite.Group()
 enemy_bullets = pygame.sprite.Group()
 
 current_friend_unit = "rifle"
+spawn_friend_count = 5

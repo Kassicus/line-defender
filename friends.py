@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 
 import lib
 import bullets
@@ -19,11 +20,13 @@ class BaseFriend(pygame.sprite.Sprite):
 
         super().__init__()
 
-        self.pos = pygame.math.Vector2(x, y)
+        self.pos = pygame.math.Vector2(x - random.randint(300, 500), y) #TODO: randomize spawning in the y position
+        self.spawnpoint = pygame.math.Vector2(x, y)
         self.size = pygame.math.Vector2(20, 30)
         self.velocity = pygame.math.Vector2()
     
         self.health = health
+        self.speed = 150
         self.accuracy = accuracy
         self.target = None
 
@@ -41,9 +44,14 @@ class BaseFriend(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = self.pos
 
+        self.velocity = self.get_vectors()
+
     def update(self, enemies: pygame.sprite.Group):
         self.pos += self.velocity * lib.delta_time
         self.rect.center = self.pos
+
+        if self.pos.distance_to(self.spawnpoint) < 5:
+            self.velocity.x, self.velocity.y = 0, 0
 
         if self.target == None:
             self.target = self.get_target(enemies)
@@ -52,6 +60,14 @@ class BaseFriend(pygame.sprite.Sprite):
 
         if self.health <= 0:
             self.kill()
+
+    def get_vectors(self) -> pygame.math.Vector2:
+        distance = [self.spawnpoint.x - self.pos.x, self.spawnpoint.y - self.pos.y]
+        normal = math.sqrt(distance[0] ** 2 + distance[1] ** 2)
+        direction = [distance[0] / normal, distance[1] / normal]
+        vectors = pygame.math.Vector2(direction[0] * self.speed, direction[1] * self.speed)
+
+        return vectors
 
     def get_target(self, enemies: pygame.sprite.Group) -> pygame.sprite.Sprite:
         if len(enemies.sprites()) > 0:

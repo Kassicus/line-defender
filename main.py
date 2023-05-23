@@ -48,11 +48,13 @@ class Game():
                 
                 match lib.current_friend_unit:
                     case "rifle":
-                        f = friends.RifleFriend(x, y)
-                        lib.friend_group.add(f)
+                        for f in range(lib.spawn_friend_count):
+                            f = friends.RifleFriend(x + random.randint(-50, 50), y + random.randint(-100, 100))
+                            lib.friend_group.add(f)
                     case "autorifle":
-                        f = friends.AutoRifleFriend(x, y)
-                        lib.friend_group.add(f)
+                        for f in range(lib.spawn_friend_count):
+                            f = friends.AutoRifleFriend(x + random.randint(-50, 50), y + random.randint(-100, 100))
+                            lib.friend_group.add(f)
 
 
     def events_keyboard(self, key: pygame.key):

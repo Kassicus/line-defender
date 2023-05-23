@@ -8,7 +8,8 @@ class ToggleUnitButton(pygame.sprite.Sprite):
             x: int,
             y: int,
             title: str,
-            unit: str
+            unit: str,
+            count: int
     ):
         super().__init__()
         
@@ -19,6 +20,7 @@ class ToggleUnitButton(pygame.sprite.Sprite):
         self.title_surface = self.font.render(self.title, True, lib.color.green)
 
         self.unit = unit
+        self.unit_count = count
 
         self.image = pygame.Surface([125, 50])
         self.image.fill(lib.color.gray)
@@ -51,13 +53,14 @@ class ToggleUnitButton(pygame.sprite.Sprite):
         if self.mouse_hover:
             if pygame.mouse.get_pressed()[0]:
                 lib.current_friend_unit = self.unit
+                lib.spawn_friend_count = self.unit_count
 
 class UnitInterface():
     def __init__(self):
         self.button_group = pygame.sprite.Group()
 
-        self.rifle_button = ToggleUnitButton(10, 940, "RifleMan", "rifle")
-        self.auto_rifle_button = ToggleUnitButton(145, 940, "AutoRifle", "autorifle")
+        self.rifle_button = ToggleUnitButton(10, 940, "RifleMan", "rifle", 5)
+        self.auto_rifle_button = ToggleUnitButton(145, 940, "AutoRifle", "autorifle", 4)
 
         self.button_group.add(
             self.rifle_button,
