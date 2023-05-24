@@ -33,6 +33,7 @@ class BaseEnemy(pygame.sprite.Sprite):
         self.target = None
         self.engage_distance = engage_distance
         self.kill_value = kill_value
+        self.is_current_target = False
 
         self.bullet_type = bullet_type
         self.max_shot_cooldown = max_shot_cooldown
