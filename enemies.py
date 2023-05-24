@@ -138,8 +138,8 @@ class BaseEnemy(pygame.sprite.Sprite):
 
 class SMGEnemy(BaseEnemy):
     def __init__(self, x: int, y: int):
-        super().__init__(x, y, 10, 120, 10, 30, 350, bullets.HandgunBullet, 450, 3)
+        super().__init__(x, y, 10, 120, 10, 30, 350, bullets.HandgunBullet, 450, 6)
 
 class RifleEnemy(BaseEnemy):
     def __init__(self, x: int, y: int):
-        super().__init__(x, y, 10, 20, 50, 5, 250, bullets.ARBullet, 600, 2) 
+        super().__init__(x, y, 10, 20, 50, 5, 250, bullets.ARBullet, 600, 4) 

@@ -39,4 +39,5 @@ mouse_mode = "normal"
 current_friend_unit = "rifle"
 spawn_friend_count = 5
 
-cash = 100
+cash = 500
+current_cost = 0

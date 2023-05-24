@@ -46,7 +46,7 @@ class Game():
         if lib.mouse_mode == "spawn":
             if button == pygame.BUTTON_LEFT:
                 x, y = pygame.mouse.get_pos()
-                
+
                 match lib.current_friend_unit:
                     case "rifle":
                         for f in range(lib.spawn_friend_count):
@@ -57,6 +57,7 @@ class Game():
                             f = friends.AutoRifleFriend(x + random.randint(-50, 50), y + random.randint(-100, 100))
                             lib.friend_group.add(f)
 
+                lib.cash -= lib.current_cost
                 lib.mouse_mode = "normal"
                 pygame.mouse.set_visible(True)
 
@@ -68,7 +69,7 @@ class Game():
             self.spawn_enemy_wave()
 
     def spawn_enemy_wave(self):
-        for x in range(100):
+        for x in range(8):
             x = random.choice((enemies.RifleEnemy, enemies.SMGEnemy))
             e = x(random.randint(1600, 1700), random.randint(25, 975))
             lib.enemy_group.add(e)

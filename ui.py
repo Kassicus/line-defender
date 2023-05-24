@@ -103,7 +103,7 @@ class ToggleUnitButton(pygame.sprite.Sprite):
                     lib.spawn_friend_count = self.unit_count
                     lib.mouse_mode = "spawn"
                     pygame.mouse.set_visible(False)
-                    lib.cash -= self.cost
+                    lib.current_cost = self.cost
 
 class UnitInterface():
     def __init__(self):

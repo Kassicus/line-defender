@@ -71,9 +71,15 @@ class BaseFriend(pygame.sprite.Sprite):
 
     def get_target(self, enemies: pygame.sprite.Group) -> pygame.sprite.Sprite:
         if len(enemies.sprites()) > 0:
-            non_target_enemies = filter(lambda e: e.is_current_target == False, enemies)
-            target = min([e for e in non_target_enemies], key = lambda e: self.pos.distance_to(e.pos))
+            non_target_enemies = list(filter(lambda e: e.is_current_target == False, enemies))
+            
+            if len(non_target_enemies) > 0:
+                target = min([e for e in non_target_enemies], key = lambda e: self.pos.distance_to(e.pos))
+            else:
+                target = min([e for e in enemies], key = lambda e: self.pos.distance_to(e.pos))
+
             target.is_current_target = True
+
             return target
 
     def engage_target(self):
