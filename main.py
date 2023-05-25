@@ -50,11 +50,11 @@ class Game():
                 match lib.current_friend_unit:
                     case "rifle":
                         for f in range(lib.spawn_friend_count):
-                            f = friends.RifleFriend(x + random.randint(-50, 50), y + random.randint(-100, 100))
+                            f = friends.RifleFriend(x + random.randint(-50, 50), y + random.randint(-200, 200))
                             lib.friend_group.add(f)
                     case "autorifle":
                         for f in range(lib.spawn_friend_count):
-                            f = friends.AutoRifleFriend(x + random.randint(-50, 50), y + random.randint(-100, 100))
+                            f = friends.AutoRifleFriend(x + random.randint(-50, 50), y + random.randint(-200, 200))
                             lib.friend_group.add(f)
 
                 lib.cash -= lib.current_cost
