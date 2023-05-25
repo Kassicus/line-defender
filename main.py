@@ -56,6 +56,16 @@ class Game():
                         for f in range(lib.spawn_friend_count):
                             f = friends.AutoRifleFriend(x + random.randint(-50, 50), y + random.randint(-200, 200))
                             lib.friend_group.add(f)
+                    case "assaultrifle":
+                        for f in range(lib.spawn_friend_count):
+                            f = friends.AssaultRifleFriend(x + random.randint(-50, 50), y + random.randint(-200, 200))
+                            lib.friend_group.add(f)
+                    case "machinegun":
+                        m = friends.MachineGunFriend(x + random.randint(-50, 50), y + random.randint(-200, 200))
+                        lib.friend_group.add(m)
+                        for f in range(lib.spawn_friend_count):
+                            f = friends.AutoRifleFriend(x + random.randint(-50, 50), y + random.randint(-200, 200))
+                            lib.friend_group.add(f)
 
                 lib.cash -= lib.current_cost
                 lib.mouse_mode = "normal"

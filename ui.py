@@ -67,6 +67,7 @@ class ToggleUnitButton(pygame.sprite.Sprite):
         self.unit_count = count
 
         self.cost = cost
+        self.cost_surface = self.font.render(str(self.cost), True, lib.color.green)
 
         self.image = pygame.Surface([125, 50])
         self.image.fill(lib.color.gray)
@@ -76,7 +77,13 @@ class ToggleUnitButton(pygame.sprite.Sprite):
     def draw_label(self, surface: pygame.Surface):
         surface.blit(
             self.title_surface,
-            (self.pos.x + (self.rect.width / 2) - (self.title_surface.get_width() / 2), self.pos.y + (self.rect.height / 2) - (self.title_surface.get_height() / 2))
+            (self.pos.x + (self.rect.width / 2) - (self.title_surface.get_width() / 2),
+             self.pos.y + (self.rect.height / 2) - ((self.title_surface.get_height() / 2) + 8))
+        )
+        surface.blit(
+            self.cost_surface,
+            (self.pos.x + (self.rect.width / 2) - (self.cost_surface.get_width() / 2),
+             self.pos.y + (self.rect.height / 2) - ((self.cost_surface.get_height() / 2) - 8))
         )
 
     def update(self):
@@ -111,10 +118,14 @@ class UnitInterface():
 
         self.rifle_button = ToggleUnitButton(10, 940, "RifleMan", "rifle", 5, 100)
         self.auto_rifle_button = ToggleUnitButton(145, 940, "AutoRifle", "autorifle", 4, 200)
+        self.assault_rifle_button = ToggleUnitButton(280, 940, "AssaultRifle", "assaultrifle", 4, 350)
+        self.machine_gun_button = ToggleUnitButton(415, 940, "MachineGun", "machinegun", 3, 500)
 
         self.button_group.add(
             self.rifle_button,
-            self.auto_rifle_button
+            self.auto_rifle_button,
+            self.assault_rifle_button,
+            self.machine_gun_button
         )
 
     def draw(self, surface: pygame.Surface):
